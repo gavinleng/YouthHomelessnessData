@@ -19,8 +19,8 @@ def download(url, sheet, reqFields, outPath):
 
     if len(homeReq) != 1:
         errfile.write(str(now()) + " Requested data " + str(homeReq).strip(
-            '[]') + " don't match the excel file. This code is only for extracting data from filed 'e1b1a'. Please check the file at: " + str(url) + " . End process\n")
-        logfile.write(str(now()) + ' error and end process\n')
+            '[]') + " don't match the excel file. This code is only for extracting data from filed 'e1b1a'. Please check the file at: " + str(url) + " . End progress\n")
+        logfile.write(str(now()) + ' error and end progress\n')
         sys.exit("Requested data " + str(homeReq).strip(
             '[]') + " don't match the excel file. This code is only for extracting data from filed 'e1b1a'. Please check the file at: " + url)
 
@@ -31,18 +31,18 @@ def download(url, sheet, reqFields, outPath):
     try:
         socket = urllib.request.urlopen(url)
     except urllib.error.HTTPError as e:
-        errfile.write(str(now()) + ' excel download HTTPError is ' + str(e.code) + ' . End process\n')
-        logfile.write(str(now()) + ' error and end process\n')
+        errfile.write(str(now()) + ' excel download HTTPError is ' + str(e.code) + ' . End progress\n')
+        logfile.write(str(now()) + ' error and end progress\n')
         sys.exit('excel download HTTPError = ' + str(e.code))
     except urllib.error.URLError as e:
-        errfile.write(str(now()) + ' excel download URLError is ' + str(e.args) + ' . End process\n')
-        logfile.write(str(now()) + ' error and end process\n')
+        errfile.write(str(now()) + ' excel download URLError is ' + str(e.args) + ' . End progress\n')
+        logfile.write(str(now()) + ' error and end progress\n')
         sys.exit('excel download URLError = ' + str(e.args))
     except Exception:
         print('excel file download error')
         import traceback
-        errfile.write(str(now()) + ' generic exception: ' + str(traceback.format_exc()) + ' . End process\n')
-        logfile.write(str(now()) + ' error and end process\n')
+        errfile.write(str(now()) + ' generic exception: ' + str(traceback.format_exc()) + ' . End progress\n')
+        logfile.write(str(now()) + ' error and end progress\n')
         sys.exit('generic exception: ' + traceback.format_exc())
 
     # operate this excel file
@@ -71,8 +71,8 @@ def download(url, sheet, reqFields, outPath):
 
     if len(numCol) != len(homeReq):
         errfile.write(str(now()) + " Requested data " + str(homeReq).strip(
-            '[]') + " don't match the excel file. Please check the file at: " + str(url) + " . End process\n")
-        logfile.write(str(now()) + ' error and end process\n')
+            '[]') + " don't match the excel file. Please check the file at: " + str(url) + " . End progress\n")
+        logfile.write(str(now()) + ' error and end progress\n')
         sys.exit("Requested data " + str(homeReq).strip(
             '[]') + " don't match the excel file. Please check the file at: " + url)
 
