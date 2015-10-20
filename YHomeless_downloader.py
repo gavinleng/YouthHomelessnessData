@@ -8,6 +8,7 @@ import argparse
 import json
 import datetime
 
+
 # url = "https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/463076/Detailed_LA_Level_Tables_201506.xlsx"
 # output_path = "tempYHomeless.csv"
 # sheet = "Section 1"
@@ -19,7 +20,8 @@ def download(url, sheet, reqFields, outPath):
 
     if len(homeReq) != 1:
         errfile.write(str(now()) + " Requested data " + str(homeReq).strip(
-            '[]') + " don't match the excel file. This code is only for extracting data from filed 'e1b1a'. Please check the file at: " + str(url) + " . End progress\n")
+            '[]') + " don't match the excel file. This code is only for extracting data from filed 'e1b1a'. Please check the file at: " + str(
+            url) + " . End progress\n")
         logfile.write(str(now()) + ' error and end progress\n')
         sys.exit("Requested data " + str(homeReq).strip(
             '[]') + " don't match the excel file. This code is only for extracting data from filed 'e1b1a'. Please check the file at: " + url)
@@ -51,10 +53,10 @@ def download(url, sheet, reqFields, outPath):
     df = xd.parse(sheet)
 
     listurl = (url.split('_'))
-    iYQ = listurl[len(listurl)-1]
+    iYQ = listurl[len(listurl) - 1]
     iYQ = (iYQ.split('.'))[0]
     iYear = iYQ[:4]
-    iQuarter = int(int(iYQ[4:])/3)
+    iQuarter = int(int(iYQ[4:]) / 3)
 
     logfile.write(str(now()) + ' indicator checking\n')
     print('indicator checking------')
@@ -104,12 +106,9 @@ def download(url, sheet, reqFields, outPath):
 def now():
     return datetime.datetime.now()
 
-logfile = open("mylog.log", "w")
-logfile.write(str(now()) + ' start\n')
 
-errfile = open("myerror.err", "w")
-
-parser = argparse.ArgumentParser(description='Extract online Youth Homelessness Data Excel file Section 1 to .csv file.')
+parser = argparse.ArgumentParser(
+    description='Extract online Youth Homelessness Data Excel file Section 1 to .csv file.')
 parser.add_argument("--generateConfig", "-g", help="generate a config file called config_YHomeless.json",
                     action="store_true")
 parser.add_argument("--configFile", "-c", help="path for config file")
@@ -123,16 +122,27 @@ if args.generateConfig:
         "reqFields": ["e1b1a"]
     }
 
-    with open("config_YHomeless.json", "w") as outfile:
+    logfile = open("log_tempYHomeless.log", "w")
+    logfile.write(str(now()) + ' start\n')
+
+    errfile = open("err_tempYHomeless.err", "w")
+
+    with open("config_tempYHomeless.json", "w") as outfile:
         json.dump(obj, outfile, indent=4)
         logfile.write(str(now()) + ' config file generated and end\n')
         sys.exit("config file generated")
 
 if args.configFile == None:
-    args.configFile = "config_YHomeless.json"
+    args.configFile = "config_tempYHomeless.json"
 
 with open(args.configFile) as json_file:
     oConfig = json.load(json_file)
+
+    logfile = open('log_' + oConfig["outPath"].split('.')[0] + '.log', "w")
+    logfile.write(str(now()) + ' start\n')
+
+    errfile = open('err_' + oConfig["outPath"].split('.')[0] + '.err', "w")
+
     logfile.write(str(now()) + ' read config file\n')
     print("read config file")
 
